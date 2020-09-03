@@ -9,6 +9,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "code-challenge.Tests.Integr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "code-challenge.Tests.Unit", "code-challenge.Tests.unit\code-challenge.Tests.Unit.csproj", "{5B2319E5-EF86-470D-9DD2-E50E289E990B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6F98636A-8B8A-49CB-938F-1F171D5D7B5C}"
+ProjectSection(SolutionItems) = preProject
+	.gitignore = .gitignore
+	_config.yml = _config.yml
+	README.md = README.md
+	ToDo.md = ToDo.md
+EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
