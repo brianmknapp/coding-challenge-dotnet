@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using challenge.Services;
 using challenge.Models;
+using challenge.Dto;
 
 namespace challenge.Controllers
 {
@@ -56,6 +57,19 @@ namespace challenge.Controllers
             _employeeService.Replace(existingEmployee, newEmployee);
 
             return Ok(newEmployee);
+        }
+
+        [HttpGet("{id}/reporting-structure")]
+        public IActionResult GetEmployeeReportingStructure(string id)
+        {
+            _logger.LogDebug($"Received employee get reporting structure request for '{id}'");
+
+            var employee = _employeeService.GetById(id);
+
+            if (employee == null)
+                return NotFound();
+
+            return Ok(ReportingStructureDto.FromEmployee(employee));
         }
     }
 }
