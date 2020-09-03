@@ -14,17 +14,18 @@ using System.Net;
 using System.Net.Http;
 using code_challenge.Tests.Integration.Helpers;
 using System.Text;
+using challenge.Dto;
 
 namespace code_challenge.Tests.Integration
 {
     [TestClass]
     public class EmployeeControllerTests
     {
-        private static HttpClient _httpClient;
-        private static TestServer _testServer;
+        private HttpClient _httpClient;
+        private TestServer _testServer;
 
-        [ClassInitialize]
-        public static void InitializeClass(TestContext context)
+        [TestInitialize]
+        public void InitializeClass()
         {
             _testServer = new TestServer(WebHost.CreateDefaultBuilder()
                 .UseStartup<TestServerStartup>()
@@ -33,8 +34,8 @@ namespace code_challenge.Tests.Integration
             _httpClient = _testServer.CreateClient();
         }
 
-        [ClassCleanup]
-        public static void CleanUpTest()
+        [TestCleanup]
+        public void CleanUpTest()
         {
             _httpClient.Dispose();
             _testServer.Dispose();
@@ -137,6 +138,20 @@ namespace code_challenge.Tests.Integration
 
             // Assert
             Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
+        }
+
+        [DataTestMethod]
+        [DataRow("16a596ae-edd3-4847-99fe-c4518e82c86f", 4)]
+        public void GetEmployeeReportingStructure_ReturnsExpectedResult(string id, int expectedReports)
+        {
+            // Arrange
+            // Act
+            var getRequestTask = _httpClient.GetAsync($"api/employee/{id}/reporting-structure");
+            var response = getRequestTask.Result;
+            // Assert
+            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+            var reportingStructure = response.DeserializeContent<ReportingStructure>();
+            Assert.AreEqual(expectedReports, reportingStructure.NumberOfReports);
         }
     }
 }
